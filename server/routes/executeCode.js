@@ -1,5 +1,7 @@
 const express = require('express');
 const fs = require('fs');
+const { exec } = require("child_process");
+
 
 
 const router = express.Router();
@@ -20,7 +22,18 @@ router.post('/',(req,res)=>{
             }
             // file written successfully
           });
-
+        exec("emcc codes/code.cpp -o codes/code.wasm", (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+            console.log(`stdout: ${stdout}`);
+        });
+        
         res.json({isUploded : 1});
     }catch(error){
         console.error('Error:', error);
