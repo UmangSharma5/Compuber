@@ -1,4 +1,6 @@
 const express = require('express');
+const fs = require('fs');
+
 
 const router = express.Router();
 
@@ -12,7 +14,12 @@ router.post('/',(req,res)=>{
         console.log("hello");
         console.log(req.body);
 
-        
+        fs.writeFile('codes/code.cpp', req.body.code, err => {
+            if (err) {
+              console.error(err);
+            }
+            // file written successfully
+          });
 
         res.json({isUploded : 1});
     }catch(error){
